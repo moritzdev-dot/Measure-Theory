@@ -1,0 +1,67 @@
+
+\documentclass[11pt,a4paper]{article}
+
+% --- Margins & Layout ---
+\usepackage[margin=1in]{geometry}
+\usepackage{microtype}
+
+% --- Math Packages & Fonts ---
+\usepackage{amsmath,amssymb,amsthm,amsfonts}
+\usepackage{mathtools}
+\usepackage{mathrsfs}
+
+% --- Hyperlinks ---
+\usepackage[colorlinks=true, linkcolor=blue, citecolor=blue, urlcolor=blue]{hyperref}
+
+% --- Custom Macros ---
+\newcommand{\bR}{\mathbb{R}}
+\newcommand{\cC}{\mathcal{C}}
+\newcommand{\cM}{\mathcal{M}}
+
+% --- Theorem Environments ---
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{remark}[theorem]{Remark}
+
+\title{\textbf{Ana III Zusammenfassung}}
+\author{Moritz}
+
+\begin{document}
+\maketitle
+
+\section{Measure Theory}
+\begin{definition}[outer measure]
+    Let $X$ be any set and let $\mu: 2^X \to [0, \infty]$ then $\mu$ is a 
+    outer measure if
+    \begin{enumerate}
+        \item $\mu(\emptyset) = 0$
+        \item $\mu(A) \le \sum_k \mu(A_k)$ \quad for every $A \subset \bigcup_k A_k$
+    \end{enumerate}
+\end{definition}
+\begin{definition}[measurability]
+    A set $A \subset X$ is considered $\mu$-measurable if for every $B \subset X$ we have 
+    the inequality
+    \[
+        \mu(B) \ge \mu(A \cap B) + \mu (B \backslash A)
+    \]
+    Now let $\cM(\mu)$ be the set of all $\mu$-measurable sets.
+\end{definition}
+
+\begin{theorem}[basic properties of measurable sets]
+    Let $A \subset X$ be measurable and let $A_k \subset X$ be a sequence of measurable sets then 
+    we have the following properties 
+    \begin{enumerate}
+        \item $X\backslash A = A^C \in \cM(\mu)$
+        \item $\bigcap_k A_k \in \cM(\mu)$ and $\bigcup_k A_k \in \cM(\mu)$
+        \item if $A_k$ is a pairwise disjoint sequence then we have $\mu(\bigcup_k A_k) = \sum_k \mu(A_k)$
+    \end{enumerate}
+\end{theorem}
+
+\end{document}
