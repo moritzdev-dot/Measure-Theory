@@ -17,6 +17,7 @@
 \newcommand{\bR}{\mathbb{R}}
 \newcommand{\cC}{\mathcal{C}}
 \newcommand{\cM}{\mathcal{M}}
+\newcommand{\cL}{\mathcal{L}}
 
 % --- Theorem Environments ---
 \theoremstyle{plain}
@@ -38,13 +39,14 @@
 
 \section{Measure Theory}
 \begin{definition}[outer measure]
-    Let $X$ be any set and let $\mu: 2^X \to [0, \infty]$ then $\mu$ is a 
+    Let $X$ be any set and let $\mu: 2^X \to [0, \infty]$ then $\mu$ is an 
     outer measure if
     \begin{enumerate}
         \item $\mu(\emptyset) = 0$
         \item $\mu(A) \le \sum_k \mu(A_k)$ \quad for every $A \subset \bigcup_k A_k$
     \end{enumerate}
 \end{definition}
+
 \begin{definition}[measurability]
     A set $A \subset X$ is considered $\mu$-measurable if for every $B \subset X$ we have 
     the inequality
@@ -58,10 +60,70 @@
     Let $A \subset X$ be measurable and let $A_k \subset X$ be a sequence of measurable sets then 
     we have the following properties 
     \begin{enumerate}
-        \item $X\backslash A = A^C \in \cM(\mu)$
+        \item $X\setminus A = A^C \in \cM(\mu)$
         \item $\bigcap_k A_k \in \cM(\mu)$ and $\bigcup_k A_k \in \cM(\mu)$
         \item if $A_k$ is a pairwise disjoint sequence then we have $\mu(\bigcup_k A_k) = \sum_k \mu(A_k)$
     \end{enumerate}
 \end{theorem}
+
+
+\begin{definition}[measure space]
+    A triple $(X, \cM, \mu)$ is called a measure space if $\mu: \cM \to [0, \infty]$ is a measure 
+    and $\cM$ is a $\sigma$-Algebra. 
+\end{definition}
+
+\begin{theorem}[monotone convergence for measures]
+    Let $(A_n)_n$ be a sequence of measurable sets
+    \begin{enumerate}
+        \item if $A_1 \subset A_2 \subset \dots$ then we have 
+            \[
+                \mu(\bigcup_n A_n) = \lim_{n \to \infty} \mu(A_n)
+            \]
+        \item if $A_1 \supset A_2 \supset \dots$ and $\mu(A_1) < \infty$ then we have 
+            \[
+                \mu(\bigcap_n A_n) = \lim_{n \to \infty} \mu(A_n)
+            \]
+    \end{enumerate}
+\end{theorem}
+
+
+\begin{definition}[$\sigma$-finite]
+    A measure space $(X, \cM, \mu)$ is $\sigma$-finite if there are sets $E_n \in \cM$ such that 
+    \[
+        X = \bigcup_n E_n, \quad \mu(E_n) < \infty
+    \]
+\end{definition}
+
+\subsection{Lebesgue Measure}
+\begin{definition}[rectangle]
+    Let $a, b \in \bR^n$ such that $a_i \le b_i$ then we define the rectangle with corners $a$ and $b$ by
+    \[
+        Q(a, b) := (a_1, b_1) \times \cdots \times (a_n, b_n)
+    \]
+    and we define the volume with 
+    \[
+        |Q(a, b)| := \prod_{i=1}^n (b_i - a_i)
+    \]
+\end{definition}
+
+
+\begin{definition}[lebesgue outer measure]
+    Let $E \subset \bR^n$ then we define the $n$ dimensional Lebesgue Outer Measure by 
+    \[
+        \cL^n(E) := \inf \{ \sum_k |Q_k|: E \subset \bigcup_k Q_k, \text{ where } Q_k \text{ are rectangles} \}
+    \]
+\end{definition}
+
+\begin{theorem}[properties of the lebesgue measure]
+    The Lebesgue measure has the following properties
+    \begin{enumerate}
+        \item $\cL^n$ is Borel regular and $\sigma$-finite
+        \item $\cL^n(Q(0, 1)) = 1$
+        \item $\cL^n(A + t) = \cL^n(A)$ where $t \in \bR^n$
+        \item $\cL^n(\Lambda(A)) = \det (\Lambda) \cL^n(A)$ 
+            with $\Lambda = \operatorname{diag}(\lambda_1, \dots, \lambda_n)$ and $\lambda_k \ge 0$ for all $k$
+    \end{enumerate}
+\end{theorem}
+
 
 \end{document}
