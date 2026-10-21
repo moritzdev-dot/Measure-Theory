@@ -9,6 +9,7 @@
 \usepackage{amsmath,amssymb,amsthm,amsfonts}
 \usepackage{mathtools}
 \usepackage{mathrsfs}
+\usepackage{tikz}
 
 % --- Hyperlinks ---
 \usepackage[colorlinks=true, linkcolor=blue, citecolor=blue, urlcolor=blue]{hyperref}
@@ -16,6 +17,7 @@
 % --- Custom Macros ---
 \newcommand{\bR}{\mathbb{R}}
 \newcommand{\cC}{\mathcal{C}}
+\newcommand{\cB}{\mathcal{B}}
 \newcommand{\cM}{\mathcal{M}}
 \newcommand{\cL}{\mathcal{L}}
 
@@ -66,31 +68,49 @@
     \end{enumerate}
 \end{theorem}
 \begin{proof}
-    will be added later
+    \textbf{1.)}\\ follows by realizing that the definitoin of measurability is invariant under complements ($B\setminus A = B \cap A^C$).
+    \\
+    \textbf{3.)}\\
+    Using the fact that 
+    \[
+        A \cup B = (A \cap B) \cup (A \cap B^C) \cup (B \cap A^C)
+    \]
+    and applying the definition  of measurability twice we get that 
+    \[
+        \mu(E) \ge \mu(E \cap (A \cup B)) + \mu(E \cap (A \cup B)^C)
+    \]
+    and thus $A \cup B$ is measurable now by using and inductive argument we get that every finite union of measurable sets is still measurable.
+    Now define $B_N := \bigcup_{k=1}^N A_k$ then by measurability and induction we get that 
+    \[
+        \mu(B_{N+1}) = \mu(B_{N+1}\setminus A_{N+1}) + \mu(B_{N+1} \cap A_{N+1}) = \mu(B_N) + \mu(A_{N+1}) = \sum_{k = 1}^{N+1} \mu(A_{N+1})
+    \]
+    now by taking limits we get claim 3. 
+    \\
+    \textbf{2.)}\\
+    Now for 2 we  define 
+    \[
+        \hat{A}_{N+1} = A_{N+1}\setminus (\bigcup_k^N A_k), \quad B_N = \bigcup^N_k \hat{A}_k
+    \]
+    then we have that the $\hat{A}_k$ are disjoint and also 
+    \[
+        A = \bigcup_k^\infty A_k = \bigcup_k^\infty \hat{A}_k
+    \]
+    Now we see by using 3 on the disjoint family we get 
+    \[
+        \mu(E) \ge \mu(E \cap B_N) + \mu(E \cap B_N^C) \ge \mu(E \cap B_N) + \mu(E \cap A^C)
+    \]
+    Now by applying 3 we see that 
+    \[
+        \mu(E \cap B_N) = \sum_k^N \mu(E \cap \hat{A}_k) 
+    \]
+    by passing to the limit we get that 
+    \[
+        \mu(E) \ge \sum_k^\infty \mu(E \cap \hat{A}_k) + \mu(E \cap A^C) \ge \mu(E \cap A) + \mu(E \cap A^C)
+    \]
+    which establishes claim 2.
 \end{proof}
 
 
-\begin{definition}[measure space]
-    A triple $(X, \cM, \mu)$ is called a measure space if $\mu: \cM \to [0, \infty]$ is a measure 
-    and $\cM$ is a $\sigma$-Algebra. 
-\end{definition}
-
-\begin{theorem}[monotone convergence for measures]
-    Let $(A_n)_n$ be a sequence of measurable sets
-    \begin{enumerate}
-        \item if $A_1 \subset A_2 \subset \dots$ then we have 
-            \[
-                \mu(\bigcup_n A_n) = \lim_{n \to \infty} \mu(A_n)
-            \]
-        \item if $A_1 \supset A_2 \supset \dots$ and $\mu(A_1) < \infty$ then we have 
-            \[
-                \mu(\bigcap_n A_n) = \lim_{n \to \infty} \mu(A_n)
-            \]
-    \end{enumerate}
-\end{theorem}
-\begin{proof}
-    will be added later
-\end{proof}
 
 
 \begin{definition}[$\sigma$-finite]
@@ -133,6 +153,248 @@
 \begin{proof}
     will be added later
 \end{proof}
+
+\newpage
+\subsubsection*{Optional}
+\textit{Note: In this section i tried to build a different proof of property 2 of the Lebesgue measure wich i find to be more intuitive to understand.
+So this section is not relevant to the lecture but might help to get a better picture of the intuition used in the proofs.}
+\newline 
+\newline
+\noindent So we will first define a simpler way to measure a class of sets called elementary wich are sets that can be divided into 
+rectangles.
+A set $Q \subset \mathbb{R}^n$ is called \textbf{elementary} if it can be represented as a finite union of $n$-dimensional rectangles with disjoint interiors.
+\begin{definition}
+     Let $Q \subset \bR^n$ be elementary with $Q = \bigcup_{i=1}^N Q_i$ and we will define
+    \[
+        v(Q) := \sum_{i=1}^N |Q_i|
+    \]
+\end{definition}
+\noindent As a fun fact this measure is closely related to the Lebesgue measure in somewhat the same way as the Riemann integral is related to the
+Lebesgue integral. The Lebesgue version "\textit{completes}" the Jordan measure/Riemann integral.
+The first observation that we will make about the Jordan measure is that is is well defined
+\begin{proposition}[well definedness]
+    If $Q = \bigcup_{k=1}^N A_k = \bigcup_{k=1}^M B_k$ are two different representations then 
+    \[
+        \sum_{k=1}^N |A_k| = \sum_{k=1}^M |B_k|
+    \]
+    in other words $v$ is well defined and does not depend on the representation.
+\end{proposition}
+\begin{proof}
+    Each rectangle $A_k$ and $B_j$ is the Cartesian product of $n$ intervals. 
+    If for each coordinate axis $1 \le i \le n$, we collect all the endpoints of the one dimensional intervals that make up the rectangles $A_k$ and $B_j$
+    and sort them we get a finite Partition and we will call the closed non overlapping intervalls of this Partition $P_i$.
+    Formally we have that $A_k = \prod_{i=1}^n [a_i, b_i]$ and $B_j = \prod_{i=1}^n [\alpha_i, \beta_i]$ 
+    (or any other way of invervalls i.e. open or half open).
+    Thus the partition is the collecion of the endpoints of these intervals making up the Rectangles.
+    Now we will define the grid generated by the $P_i$'s by 
+    \[
+        G := \left\{ \prod_{i=1}^n I_i \quad : I_i \in P_i \right\} = (C_k)_{k=1}^{|P|} 
+    \]
+    Where $C_k$ are the cells inside of the grid $G$. 
+    Now by the construction of the grid we see that each $A_k$ can be expressed as a unique union of cells in this grid thus 
+    \[
+        A_k = \bigcup_{i \in I_k} C_i
+    \]
+    which also works for $B_k$ and thus we get 
+    \[
+        B_k = \bigcup_{i \in J_k} C_i
+    \]
+    where the $C_i$'s have disjoint interiors.
+    Now because these cells form a perfect Partition of $A_k$ we see that 
+    \[
+        |A_k| = \sum_{i \in I_k} |C_i|
+    \]
+    The same works for $B_k$ and we get that 
+    \[
+        |B_k| = \sum_{i \in J_k} |C_i|
+    \]
+    Because the $A_k$'s have disjoint interior we see that one cell can only be contained in one of the $A_k$'s and thus the $I_k$'s are pairwise disjoint 
+    this argument also works for the $B_k$. 
+    Now because they both make up the same rectangle $Q$ we see that the Grid Cells must be the same and thus
+    \[
+        \bigcup_{k=1}^N I_k = \bigcup_{k=1}^M J_k = S
+    \]
+    Which instantly gives 
+    \[
+        \sum_{k = 1}^N |A_k| = \sum_{k = 1}^N \sum_{i \in I_k} |C_i| = \sum_{i \in S} |C_i| 
+    \]
+    and 
+    \[
+        \sum_{k = 1}^M |B_k| = \sum_{k = 1}^M \sum_{i \in J_k} |C_i| = \sum_{i \in S} |C_i| 
+    \]
+    thus they are equal.
+\end{proof}
+Here is a quick Visualization trying to give a better understanding of the Stategy used in this proof as it 
+is quite fundemental.
+\begin{figure}[h]
+    \centering
+    \begin{tikzpicture}[scale=1.5]
+        % Representation A (e.g., two vertical rectangles)
+        \draw[thick, fill=blue!10] (0,0) rectangle (1.5, 2);
+        \draw[thick, fill=blue!20] (1.5,0) rectangle (3, 2);
+        \node at (0.75, 1) {$A_1$};
+        \node at (2.25, 1) {$A_2$};
+        \node[below] at (1.5, -0.2) {Representation $A$};
+
+        % Representation B (e.g., three horizontal rectangles)
+        \begin{scope}[shift={(4,0)}]
+            \draw[thick, fill=red!10] (0,0) rectangle (3, 0.7);
+            \draw[thick, fill=red!20] (0,0.7) rectangle (3, 1.4);
+            \draw[thick, fill=red!30] (0,1.4) rectangle (3, 2);
+            \node at (1.5, 0.35) {$B_1$};
+            \node at (1.5, 1.05) {$B_2$};
+            \node at (1.5, 1.7) {$B_3$};
+            \node[below] at (1.5, -0.2) {Representation $B$};
+        \end{scope}
+
+        % The Grid G
+        \begin{scope}[shift={(8,0)}]
+            \draw[thick, fill=purple!15] (0,0) rectangle (3,2);
+            \draw[dashed] (1.5,0) -- (1.5,2); % from A
+            \draw[dashed] (0,0.7) -- (3,0.7); % from B
+            \draw[dashed] (0,1.4) -- (3,1.4); % from B
+            
+            \node at (0.75, 0.35) {$C_1$};
+            \node at (2.25, 0.35) {$C_2$};
+            \node at (0.75, 1.05) {$C_3$};
+            \node at (2.25, 1.05) {$C_4$};
+            \node at (0.75, 1.7) {$C_5$};
+            \node at (2.25, 1.7) {$C_6$};
+            
+            \node[below] at (1.5, -0.2) {Common Grid $G$};
+        \end{scope}
+    \end{tikzpicture}
+    \caption{The grid is formed by taking the Cartesian product of the partitions $P_i$ from the axes, creating a common refinement $\{C_k\}$.}
+\end{figure}
+\newpage
+Now this Grid strategy is really useful and we will use it to proof the following proposition which 
+will then be really helpfull in proving the claim.
+\begin{proposition}
+    Let $Q$ be a rectangle and let $Q \subset \bigcup_{k=1}^N A_k$ where $A_k$ are Rectangles then 
+    $|Q| \le \sum_{k=1}^N |A_k|$
+\end{proposition}
+\begin{proof}
+    Now let $P_i$ be the partition generated by the one dimensional intervals of the $A_k$ rectangles and $Q$ and 
+    let $G = (C_i)_{i=1}^{|G|}$ be the Grid generated by those partitions. And now we see that each $A_k$ can be written as some finite union 
+    of Grid cells \[
+        A_k = \bigcup_{i \in I_k} C_i
+    \]
+    and we also get that 
+    \[
+        Q = \bigcup_{j \in J} C_j
+    \]
+    Now by the above proposition we get that $|Q| = v(Q) = \sum_{j \in J} |C_j|$
+    and because the Cells in the grid are non overlapping we get that every cell that is inside $Q$ but be inside some $A_k$ and thus 
+    \[
+        \sum_{j \in J} |C_j| \le \sum_{k = 1}^N \sum_{i \in I_k} |C_i| = \sum_{k = 1}^N v(A_k) = \sum_{k = 1}^N |A_k|
+    \]
+\end{proof}
+\begin{figure}[h]
+    \centering
+    \begin{tikzpicture}[scale=1.5]
+        % Base rectangle Q
+        \draw[thick, fill=gray!20] (1,1) rectangle (3.5, 2.5);
+        \node at (2.25, 1.75) {\Large $Q$};
+        
+        % Overlapping cover A_k
+        \draw[thick, fill=blue!20, opacity=0.6] (0.5, 0.5) rectangle (2.5, 2.0);
+        \node at (1.5, 1.25) {$A_1$};
+        
+        \draw[thick, fill=green!20, opacity=0.6] (2.0, 0.8) rectangle (4.0, 2.2);
+        \node at (3.0, 1.5) {$A_2$};
+        
+        \draw[thick, fill=red!20, opacity=0.6] (1.5, 1.8) rectangle (3.8, 3.0);
+        \node at (2.65, 2.6) {$A_3$};
+
+        % The generated grid lines overlay
+        \begin{scope}[shift={(5,0)}]
+            % Draw Q again
+            \draw[thick, fill=gray!10] (1,1) rectangle (3.5, 2.5);
+            \node[text=gray] at (3.25, 2.25) {$Q$};
+
+            % Extend all grid lines
+            \draw[step=0.5cm, gray, very thin, dashed] (0.5,0.5) grid (4.0, 3.0);
+            
+            % Highlight Q's outline
+            \draw[thick] (1,1) rectangle (3.5, 2.5);
+            
+            % Shade a specific cell in Q
+            \draw[fill=orange, opacity=0.5] (1.5, 1.5) rectangle (2.0, 2.0);
+            \node[font=\tiny] at (1.75, 1.75) {$C_j$};
+            
+            \node[below, text width=5cm, align=center] at (2.25, 0.2) {Grid extending boundaries of $Q$ and $A_k$. Every grid cell inside $Q$ belongs to at least one $A_k$.};
+        \end{scope}
+    \end{tikzpicture}
+    \caption{Subadditivity proof via grid technique: $Q$ is fully covered by the overlapping rectangles $A_k$. The grid partitions the space so each cell in $Q$ can be matched to a cell in at least one $A_k$.}
+\end{figure}
+
+\begin{proposition}[]
+    $\cL^n(Q(0, 1)) = 1$
+\end{proposition}
+\begin{proof}[]
+    We easily see that $1 \ge \cL^n(Q(0, 1))$ now we let $\varepsilon > 0$ 
+    and we get that $Q_\varepsilon = [\varepsilon, 1 - \varepsilon]^n \subset Q(0, 1)$ if we let 
+    $Q_k$ be any rectangles such that $Q(0, 1) \subset \bigcup_{k=1}^\infty Q_k$
+    now because $Q_\varepsilon$ is compact we get that there exist an $N$ such that 
+    \[
+        Q_\varepsilon \subset \bigcup_{k=1}^N Q_k
+    \]
+    now by using the prior proposition we get that 
+    \[
+        |Q_\varepsilon| \le \sum_{k=1}^N |Q_k| \le \sum_{k=1}^\infty |Q_k|
+    \]
+    now by taking the inf over all the covers we get that 
+    \[
+    \cL^n(Q(0, 1)) \ge |Q_\varepsilon| = (1 - 2\varepsilon)^n
+    \]
+    now by taking limit with $\varepsilon \to 0$ we get that 
+    $\cL^n(Q(0, 1) \ge 1$ which finishes the proof
+\end{proof}
+
+
+\newpage
+\subsection{Abstract Measure Spaces}
+
+\begin{definition}[measure space]
+    A triple $(X, \cM, \mu)$ is called a measure space if $\mu: \cM \to [0, \infty]$ is a measure 
+    and $\cM$ is a $\sigma$-Algebra. 
+\end{definition}
+
+\begin{theorem}[monotone convergence for measures]
+    Let $(A_n)_n$ be a sequence of measurable sets
+    \begin{enumerate}
+        \item if $A_1 \subset A_2 \subset \dots$ then we have 
+            \[
+                \mu(\bigcup_n A_n) = \lim_{n \to \infty} \mu(A_n)
+            \]
+        \item if $A_1 \supset A_2 \supset \dots$ and $\mu(A_1) < \infty$ then we have 
+            \[
+                \mu(\bigcap_n A_n) = \lim_{n \to \infty} \mu(A_n)
+            \]
+    \end{enumerate}
+\end{theorem}
+\begin{proof}
+    will be added later
+\end{proof}
+
+\begin{definition}[Borel $\sigma$-Algebra]
+    If $(X, d)$ is a metric space then we define the Borel $\sigma$-Algebra $\cB(X)$
+    to be the smallest $\sigma$-Algebra containing all open sets of $X$ meaning 
+    it is the intersection of all $\sigma$-Algebras that contain the open sets of $X$.
+\end{definition}
+
+\begin{definition}[Borel Regular]
+    A measure $\mu$ is Borel Regular if $\cB(X) \subset \cM(\mu)$
+\end{definition}
+
+\begin{proposition}
+    A measure $\mu$ is Borel Regular iff for every $A, B \in 2^X$ with $\operatorname{dist}(A, B) > 0$
+    we have 
+    \[
+        \mu(A \cup B) = \mu(A) + \mu(B)
+    \]
+\end{proposition}
+
 
 
 \end{document}
