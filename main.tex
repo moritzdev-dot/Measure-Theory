@@ -17,6 +17,7 @@
 % --- Custom Macros ---
 \newcommand{\bR}{\mathbb{R}}
 \newcommand{\cC}{\mathcal{C}}
+\newcommand{\cA}{\mathcal{A}}
 \newcommand{\cB}{\mathcal{B}}
 \newcommand{\cM}{\mathcal{M}}
 \newcommand{\cL}{\mathcal{L}}
@@ -394,6 +395,49 @@ will then be really helpfull in proving the claim.
         \mu(A \cup B) = \mu(A) + \mu(B)
     \]
 \end{proposition}
+\begin{proof}
+\end{proof}
+
+\begin{proposition}
+    Let $\mu$ be a Borel Regular measure such that $\mu(B_r(x)) < \infty$ for all $x \in X$ and $r > 0$ then 
+    for any Borel set $E$ and $\varepsilon > 0$ there exist an open set $U$ and a closed set $F$
+    such that $F \subset E \subset U$ and $\mu(U \setminus E) < \varepsilon$ and $\mu(E \setminus F) < \varepsilon$
+\end{proposition}
+\begin{proof}
+    Let $\varepsilon > 0$ \\
+\textit{step 1:} \\
+\end{proof}
+
+\subsection{Extension Theorem}
+\begin{definition}
+    A collection $\cA \subset 2^X$ is called and Algebra if 
+    \begin{enumerate}
+        \item $\cA$ is closed under complement
+        \item $\cA$ is closed under finite union and finite intersection
+    \end{enumerate}
+\end{definition}
+
+\begin{definition}
+    Let $\cA$ be an Algebra then $\mu_0: \cA \to [0, \infty]$ is a premeasure if
+    \begin{enumerate}
+        \item $\mu_0(\empty) = 0$
+        \item if $(A_k)^k$ is a countable sequence of pairwise disjoint sets in $\cA$ and 
+            $\bigcup_k A_k \in \cA$ then 
+            \[
+                \mu_0(\bigcup_k A_k) = \sum_k \mu_0(A_k)
+            \]
+    \end{enumerate}
+\end{definition}
+
+\begin{proposition}
+    Let $\cA$ be an Algebra and let $\mu_0$ be a premeasure then 
+    \begin{align*}
+        \mu(E) = \inf \{ \sum_k \mu_0(A_k) : E \subset \bigcup_k A_k, A_k \in \cA \}
+    \end{align*}
+    defines an outer measure such that $\mu(A) = \mu_0(A)$ for all $A \in \cA$.
+\end{proposition}
+\begin{proof}
+\end{proof}
 
 
 
